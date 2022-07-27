@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
 
   # Increase memory for Virtualbox
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "2048"
+    vb.memory = "10240"
   end
 
   # Copy Nomad job files to host
@@ -58,24 +58,24 @@ sudo usermod -aG docker vagrant
 
 # install cni plugins https://www.nomadproject.io/docs/integrations/consul-connect#cni-plugins
 echo "Installing cni plugins..."
-curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.0.0.tgz
+curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.1.1.tgz
 sudo mkdir -p /opt/cni/bin
 sudo tar -C /opt/cni/bin -xzf cni-plugins.tgz
 
 echo "Installing Consul..."
-apt-get install consul=1.10.1 -y
+apt-get install consul=1.12.2-1 -y
 
 echo "Starting Consul dev server..."
 consul agent -dev -client 0.0.0.0 -ui > consul.log 2>&1 &
 
 echo "Installing Nomad..."
-apt-get install nomad=1.1.3 -y
+apt-get install nomad=1.3.1-1 -y
 
 echo "Starting Nomad dev server..."
 VAULT_TOKEN=root nomad agent -dev-connect > nomad.log 2>&1 &
 
 echo "Installing Vault..."
-apt-get install vault=1.8.1 -y
+apt-get install vault=1.11.0-1 -y
 
 # configuring environment
 sudo -H -u vagrant nomad -autocomplete-install

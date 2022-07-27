@@ -2,6 +2,10 @@
 
 ![](./demo_diagram.png)
 
+And we are going to work on the POC below
+
+![](demo_diagram_future.png)
+
 ## Getting Started
 
 You can use Vagrant to set up this lab environment. Vagrant is
